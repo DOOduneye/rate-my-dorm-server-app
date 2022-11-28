@@ -10,6 +10,11 @@ const findCommentById = async (req, res) => {
     res.json(comment);
 }
 
+const findCommentsByDorm = async (req, res) => {
+    const comments = await CommentDAO.findCommentsByDormId(req.params.did);
+    res.json(comments);
+}
+
 const findReplies = async (req, res) => {
     const comment = await CommentDAO.findCommentById(req.params.cid);
     const replies = await CommentDAO.findCommentsByIds(comment[0].replies);
@@ -36,6 +41,7 @@ const deleteComment = async (req, res) => {
 const CommentController = (app) => {
     app.get('/api/comments', findComments);
     app.get('/api/comments/:cid', findCommentById);
+    app.get('/api/comments/dorm/:did', findCommentsByDorm);
     app.get('/api/comments/replies/:cid', findReplies);
     app.post('/api/comments/', createComment);
     app.post('/api/comments/reply/:cid', createReply);

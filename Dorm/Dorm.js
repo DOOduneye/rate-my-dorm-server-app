@@ -58,13 +58,13 @@ const Dorm = mongoose.Schema({
         required: true
     },
     comments: {
-        type: Array,
+        type: [mongoose.Schema.Types.ObjectId],
         default: []
     },
     university: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
-    }
+    },
 }, { collection: 'Dorms' });
 
 const DormModel = mongoose.model('Dorm', Dorm);
