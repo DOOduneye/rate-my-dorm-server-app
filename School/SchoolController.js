@@ -15,7 +15,6 @@ const findSchoolById = async (req, res) => {
     res.json(school);
 }
 
-
 const SchoolController = (app) => {
     app.get('/api/schools', findSchools);
     app.get('/api/schools/:name', findSchoolByName);
