@@ -45,6 +45,49 @@ const removeFromFriendList = async (req, res) => {
     res.json(user);
 }
 
+const getCurrentUser = async (req, res) => {
+    if (!req.session['profile'] || req.session['profile'] === []) {
+        res.sendStatus(403);
+        return;
+    }
+    console.log('getCurrentUser', req.session['profile'])
+    res.json(req.session['profile']);
+}
+
+const login = async (req, res) => {
+    const user = req.body
+    const email = user.email;
+    const password = user.password;
+    const existingUser = await UserDAO.findUserByCredentials(email, password);
+    console.log('login', existingUser)
+    if (existingUser && existingUser.length !== 0) {
+        existingUser.password = ''; 
+        req.session['profile'] = existingUser; 
+        res.json(existingUser);
+    } else {
+        res.sendStatus(403);
+    }
+}
+
+const logout = (req, res) => {
+    req.session.destroy();
+    res.sendStatus(200);
+}
+
+const signup = async (req, res) => {
+    const newUser = req.body;
+    const existingUser = await UserDAO.findUserByUsername(req.body.username);
+    if (existingUser) {
+        res.sendStatus(403);
+        return;
+    } else {
+        const insertedUser = await UserDAO.createUser(newUser);
+        insertedUser.password = '';
+        req.session['profile'] = insertedUser;
+        res.json(insertedUser);
+    }   
+}
+
 const UserController = (app) => {
     app.get('/api/users', findUsers);
     app.get('/api/users/:username', findUserByUsername);
@@ -54,6 +97,11 @@ const UserController = (app) => {
     app.put('/api/users/:uid', updateUser);
     app.put('/api/users/friends/:uid', addToFriendList);
     app.delete('/api/users/friends/:uid', removeFromFriendList);
+
+    app.get('/api/auth/profile', getCurrentUser);
+    app.post("/api/auth/login", login);
+    app.post("/api/auth/signup", signup);
+    app.post("/api/auth/logout", logout);
 }
 
 export default UserController;

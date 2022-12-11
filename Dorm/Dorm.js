@@ -70,4 +70,3 @@ const Dorm = mongoose.Schema({
 const DormModel = mongoose.model('Dorm', Dorm);
 
 export default DormModel;
-
