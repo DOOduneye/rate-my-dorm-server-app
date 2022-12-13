@@ -8,6 +8,7 @@ import UserController from './User/UserController.js';
 import SchoolController from './School/SchoolController.js';
 import DormController from './Dorm/DormController.js';
 import CommentController from './Comment/CommentController.js';
+import SearchController from './Search/SearchController.js';
 
 const app = express();
 
@@ -50,5 +51,6 @@ UserController(app);
 SchoolController(app);
 DormController(app);
 CommentController(app);
+SearchController(app);
 
 app.listen(process.env.PORT || 4000);
