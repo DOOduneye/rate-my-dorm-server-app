@@ -36,6 +36,7 @@ const updateUser = async (req, res) => {
 }
 
 const addToBookmarkList = async (req, res) => {
+    console.log(req.body.bookmark)
     const user = await UserDAO.appendToBookmarkList(req.params.uid, req.body.bookmark);
     res.json(user);
 }

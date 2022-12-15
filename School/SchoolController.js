@@ -11,7 +11,9 @@ const findSchoolByName = async (req, res) => {
 }
 
 const findSchoolById = async (req, res) => {
+    console.log(req.params.id)
     const school = await SchoolDAO.findSchoolById(req.params.id);
+    console.log(school)
     res.json(school);
 }
 
