@@ -35,13 +35,23 @@ const updateUser = async (req, res) => {
     res.json(user);
 }
 
+const addToBookmarkList = async (req, res) => {
+    const user = await UserDAO.appendToBookmarkList(req.params.uid, req.body.bookmark);
+    res.json(user);
+}
+
+const removeFromBookmarkList = async (req, res) => {
+    const user = await UserDAO.removeFromBookmarkList(req.params.uid, req.body.bookmark);
+    res.json(user);
+}
+
 const addToFriendList = async (req, res) => {
-    const user = await UserDAO.appendToFriendList(req.params.uid, req.body.friend);
+    const user = await UserDAO.appendToFriendList(req.params.uid, req.body);
     res.json(user);
 }
 
 const removeFromFriendList = async (req, res) => {
-    const user = await UserDAO.removeFromFriendList(req.params.uid, req.body.friend);
+    const user = await UserDAO.removeFromFriendList(req.params.uid, req.body);
     res.json(user);
 }
 
@@ -70,8 +80,11 @@ const login = async (req, res) => {
 }
 
 const logout = (req, res) => {
-    req.session.destroy();
-    res.sendStatus(200);
+    const session = req.session;
+    if (session) {
+        session.destroy();
+    }
+    res.send(session);
 }
 
 const signup = async (req, res) => {
@@ -97,11 +110,13 @@ const UserController = (app) => {
     app.put('/api/users/:uid', updateUser);
     app.put('/api/users/friends/:uid', addToFriendList);
     app.delete('/api/users/friends/:uid', removeFromFriendList);
+    app.put('/api/users/bookmarks/:uid', addToBookmarkList);
+    app.delete('/api/users/bookmarks/:uid', removeFromBookmarkList);
 
     app.get('/api/auth/profile', getCurrentUser);
     app.post("/api/auth/login", login);
     app.post("/api/auth/signup", signup);
-    app.post("/api/auth/logout", logout);
+    app.get("/api/auth/logout", logout);
 }
 
 export default UserController;

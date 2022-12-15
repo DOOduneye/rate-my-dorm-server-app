@@ -32,7 +32,7 @@ const convertToSchools = (schoolsDict) => {
             stats: {
                 size: schoolsDict[i]["2020.student.size"],
                 cost: schoolsDict[i]["school.tuition_revenue_per_fte"],
-                ownership: "unknown"
+                ownership: schoolsDict[i]["school.ownership"]
             },
             location: {
                 city: "unknown",

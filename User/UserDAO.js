@@ -7,5 +7,7 @@ export const findUserByCredentials = (email, password) => UserModel.find({ email
 export const createUser = (user) => UserModel.create(user);
 export const deleteUser = (uid) => UserModel.deleteOne({ _id: uid });
 export const updateUser = (uid, user) => UserModel.updateOne({ _id: uid }, { $set: user });
+export const appendToBookmarkList = (uid, bookmark) => UserModel.updateOne({ _id: uid }, { $push: { bookmarks: bookmark } });
+export const removeFromBookmarkList = (uid, bookmark) => UserModel.updateOne({ _id: uid }, { $pull: { bookmarks: bookmark } });
 export const appendToFriendList = (uid, friend) => UserModel.updateOne({ _id: uid }, { $addToSet: { friends: friend } });
 export const removeFromFriendList = (uid, friend) => UserModel.updateOne({ _id: uid }, { $pull: { friends: friend } });

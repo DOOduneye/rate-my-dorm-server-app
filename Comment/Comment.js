@@ -5,7 +5,6 @@ import mongoose from "mongoose";
         "text": "Horrible dorms",
         "date": "2021-05-01T00:00:00.000Z",
         "dorm": "6381b0d053dfecaae5f64274",
-        "replies": [],
     }
 ]
 
@@ -27,10 +26,6 @@ const Comment = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    replies: {
-        type: [mongoose.Schema.Types.ObjectId], // Array of comment ids
-        default: []
-    }
 }, { collection: 'Comments' });
 
 const CommentModel = mongoose.model('Comment', Comment);
